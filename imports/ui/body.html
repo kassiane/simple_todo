@@ -1,28 +1,18 @@
 <body>
   <div class="container">
     <header>
-      <h1>Todo List ({{incompleteCount}})</h1>
-
-      <label class="hide-completed">
-        <input type="checkbox" />
-        Hide Completed Tasks
-    </label>
-    {{> loginButtons}}
-
-
-    {{#if currentUser}}
-        <form class="new-task">
-          <input type="text" name="text" placeholder="Type to add new tasks" />
-        </form>
-    {{/if}}
+      <h1>Vimeo Videos</h1>
+    
+    <form class="new-video">
+      <input type="text" name="text" placeholder="Type the id of the video to be tracked" />
+    </form>
     </header>
     
 
     <ul>
-      {{#each tasks}}
-        {{> task}}
+      {{#each videos}}
+        {{> video}}
       {{/each}}
     </ul>
   </div>
 </body>
- 
