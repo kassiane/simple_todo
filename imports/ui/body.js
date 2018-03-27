@@ -8,10 +8,7 @@ import './body.html';
  
 Template.body.helpers({
  videos() {
-  	const videosFound = Videos.find({});
-  	videosFound.forEach (function(video) {
-  		console.log(video);
-  	});
+ 	console.log(Videos.find({}));
   	return Videos.find({});
   },
 });

@@ -16,9 +16,15 @@ Meteor.methods({
 				console.log('Error');
 			} else {
 				//save in the database
-				console.log(response.data);
-				Videos.insert(response.data);
+				Videos.insert(response.data[0]);
 			}
 		});
+	},
+
+	'vimeo.videos.remove'(id) {
+		check(id, String);
+
+		const video = Videos.findOne(id);
+		Videos.remove(id);
 	},
 }); 
