@@ -1,15 +1,20 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
- 
-import { Videos } from '../api/videos.js';
+import { Mongo } from 'meteor/mongo';
 
+ 
 import './video.js';
 import './body.html';
- 
+
+const Videos = new Mongo.Collection('videos');
+
+Template.body.onCreated(function bodyOnCreated() {
+	Meteor.subscribe('videos');
+});
+
 Template.body.helpers({
  videos() {
- 	console.log(Videos.find({}));
-  	return Videos.find({});
+  	return Videos.find();
   },
 });
 

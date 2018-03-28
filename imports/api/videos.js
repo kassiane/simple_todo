@@ -5,6 +5,13 @@ import { check } from 'meteor/check';
 
 export const Videos = new Mongo.Collection('videos');
 
+if(Meteor.isServer) {
+	Meteor.publish('videos', function listVideos() {
+			return Videos.find({});
+	});
+}
+
+
 Meteor.methods({
 	'vimeo.videos.insert'(id) {
 		check(id, String);
