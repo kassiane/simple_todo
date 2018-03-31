@@ -24,3 +24,4 @@ practicalmeteor:mocha
 http
 insecure
 ieverx:echarts
+kadira:flow-router
