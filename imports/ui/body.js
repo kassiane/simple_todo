@@ -5,7 +5,7 @@ import { Mongo } from 'meteor/mongo';
  
 import './video.js';
 import './body.html';
-import './chart_example.html';
+import './chart_example.js';
 
 const Videos = new Mongo.Collection('videos');
 
