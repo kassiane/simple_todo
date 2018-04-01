@@ -1,35 +1,31 @@
 import { Template } from 'meteor/templating';
+import { DataSource } from '../../data/DataSource.js';
 
 import './chart_example.html';
 
-var myChart = echarts.init(document.getElementById('main'));
+var chart;
 
-createChart();
+Template.acTemplate.rendered = function() {
+  /*
+    Get container for chart.
+    It is not actually necessary here, `chart.container('container').draw();` can be used
+    for current scope, but container is found in template to avoid container ID duplication.
+   */
+  var container = this.find("#container");
 
-function createChart() {
-	// based on prepared DOM, initialize echarts instance
-        
+  // Turn Meteor Collection to simple array of objects.
+  var data = DataSource.find({}).fetch();
 
-        // specify chart configuration item and data
-        var option = {
-            title: {
-                text: 'ECharts entry example'
-            },
-            tooltip: {},
-            legend: {
-                data:['Sales']
-            },
-            xAxis: {
-                data: ["shirt","cardign","chiffon shirt","pants","heels","socks"]
-            },
-            yAxis: {},
-            series: [{
-                name: 'Sales',
-                type: 'bar',
-                data: [5, 20, 36, 10, 10, 20]
-            }]
-        };
+  //  ----- Standard Anychart API in use -----
+  chart = anychart.pie(data);
+  chart.title('ACME Corp. apparel sales through different retail channels');
 
-        // use configuration item and data specified to show chart
-        myChart.setOption(option);
-}
+  chart.legend()
+      .position('bottom')
+      .itemsLayout('horizontal')
+      .align('center')
+      .title('Retail channels');
+
+  chart.animation(true);
+  chart.container(container).draw();
+};

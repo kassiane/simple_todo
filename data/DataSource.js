@@ -1,3 +1,5 @@
+import { Meteor } from 'meteor/meteor';
+
 export const DataSource = new Meteor.Collection('dataSource');
 
 if(Meteor.isClient) {
