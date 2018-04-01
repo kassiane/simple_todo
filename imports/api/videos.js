@@ -7,7 +7,7 @@ export const Videos = new Mongo.Collection('videos');
 
 if(Meteor.isServer) {
 	Meteor.publish('videos', function listVideos() {
-			return Videos.find({});
+		return Videos.find({});
 	});
 }
 

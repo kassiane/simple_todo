@@ -8,14 +8,19 @@ import './body.html';
 import './chart_example.js';
 
 const Videos = new Mongo.Collection('videos');
+const ChartData = new Mongo.Collection('chart');
 
 Template.body.onCreated(function bodyOnCreated() {
 	Meteor.subscribe('videos');
+	Meteor.subscribe('chart');
 });
 
 Template.body.helpers({
  videos() {
   	return Videos.find();
+  },
+  videoId: function() {
+    return Session.get('videoId');
   },
 });
 

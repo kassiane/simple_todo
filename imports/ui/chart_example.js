@@ -1,15 +1,13 @@
 import { Template } from 'meteor/templating';
-import { DataSource } from '../../data/DataSource.js';
-import { Session } from 'meteor/session';
+import { Meteor } from 'meteor/meteor';
+import { Mongo } from 'meteor/mongo';
 
 import './chart_example.html';
 
 var chart;
 
-Template.acTemplate.helpers({
-  videoId: function() {
-    return Session.get('videoId');
-  }
+Template.acTemplate.onCreated(function acTemplateOnCreated() {
+  Meteor.subscribe('chart');
 });
 
 Template.acTemplate.rendered = function() {
@@ -21,8 +19,9 @@ Template.acTemplate.rendered = function() {
   var container = this.find("#container");
 
   // Turn Meteor Collection to simple array of objects.
-  var data = DataSource.find({}).fetch();
-
+  var data = ChartData.find({}).fetch();
+  console.log('Aqui');
+  console.log(data);
   //  ----- Standard Anychart API in use -----
   chart = anychart.pie(data);
   chart.title('ACME Corp. apparel sales through different retail channels');
