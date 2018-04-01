@@ -1,9 +1,16 @@
 import { Template } from 'meteor/templating';
 import { DataSource } from '../../data/DataSource.js';
+import { Session } from 'meteor/session';
 
 import './chart_example.html';
 
 var chart;
+
+Template.acTemplate.helpers({
+  videoId: function() {
+    return Session.get('videoId');
+  }
+});
 
 Template.acTemplate.rendered = function() {
   /*

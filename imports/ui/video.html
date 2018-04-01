@@ -1,9 +1,11 @@
 <template name="video">
-	<li>
-		<img class="thumbnail" src="{{thumbnail_large}}">
+	<a href="/chart/{{id}}">
+		<li>
+			<img class="thumbnail" src="{{thumbnail_large}}">
 
-		<button class="delete">&times;</button>
+			<button class="delete">&times;</button>
 
-		<span class="text">Title: {{title}} - Plays: {{stats_number_of_plays}}</span>
-	</li>
+			<span class="text">Title: {{title}} - Plays: {{stats_number_of_plays}}</span>
+		</li>
+	</a>
 </template>
