@@ -58,14 +58,14 @@ Template.acTemplate.rendered = function() {
   var data = [];
 
   videoData.forEach(function(element) {
-  	data.push({x: element.title, value: element.id});
+  	data.push({x: element.title, value: element.stats_number_of_plays});
   });
   
   console.log('Aqui');
   console.log(data);
   //  ----- Standard Anychart API in use -----
-  chart = anychart.pie(data);
-  chart.title('ACME Corp. apparel sales through different retail channels');
+  chart = anychart.bar3d(data);
+  chart.title('Username - Videos');
 
   chart.legend()
       .position('bottom')
