@@ -17,7 +17,7 @@ Meteor.methods({
 		check(id, String);
 		const videoUrl = 'http://vimeo.com/api/v2/' + id + '/videos.json';
 		console.log('Adding a user in the database');
-		
+
 		// search video using video id
 		HTTP.call('GET', videoUrl, null, function(error, response) {
 			if(error){
@@ -27,6 +27,7 @@ Meteor.methods({
 				UserVideos.insert({
 					user_id: response.data[0].user_id,
 					user_name: response.data[0].user_name,
+					user_thumbnail_large: response.data[0].user_portrait_large,
 					video_list: response.data
 					}
 				);

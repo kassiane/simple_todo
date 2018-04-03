@@ -23,6 +23,5 @@ accounts-password
 practicalmeteor:mocha
 http
 insecure
-kadira:flow-router
 anychart:anychart
 session

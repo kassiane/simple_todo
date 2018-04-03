@@ -3,7 +3,7 @@ import { Template } from 'meteor/templating';
 import { Mongo } from 'meteor/mongo';
 
 
-import './video.js';
+import './video_list.js';
 import './body.html';
 
 const UserVideos = new Mongo.Collection('userVideos');
@@ -13,32 +13,13 @@ Template.body.onCreated(function bodyOnCreated() {
 });
 
 Template.body.helpers({
-	videos() {
-		return Videos.find();
-	},
 	userVideos() {
 		return UserVideos.find();
 	},
 });
 
 Template.body.events({
-	'submit .new-video'(event) {
-	// Prevent default browser form submit
-	event.preventDefault();
-	console.log(event);
-
-	// Get value from form element
-	const target = event.target;
-	const text = target.text.value;
-
-	// Insert a task into the collection
-	Meteor.call('vimeo.videos.insert', text);
-
-	// Clear form
-	target.text.value = '';
-	},
-
-	'submit .new_user'(event) {
+	'submit .new-user'(event) {
 		// Prevent default browser form submit
 		event.preventDefault();
 		console.log(event);
@@ -55,7 +36,7 @@ Template.body.events({
 	},
 });
 
-Template.video.onRendered(function funcss() {
+Template.videoList.onRendered(function funcss() {
 	/*
 	Get container for chart.
 	It is not actually necessary here, `chart.container('container').draw();` can be used
@@ -82,13 +63,12 @@ Template.video.onRendered(function funcss() {
 
 		//  ----- Standard Anychart API in use -----
 		chart = anychart.bar3d(data);
-		chart.title(user.user_name +' - Videos');
+		chart.title(user.user_name +' Videos');
 
 		chart.legend()
 		.position('bottom')
 		.itemsLayout('horizontal')
-		.align('center')
-		.title('Retail channels');
+		.align('center');
 
 		chart.animation(true);
 		chart.container(container).draw();
