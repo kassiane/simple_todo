@@ -23,12 +23,32 @@ Meteor.methods({
 			if(error){
 				console.log('Error');
 			} else {
+				var videosList = response.data;
+				var allPlays = 0;
+				var allLikes = 0;
+
+				videosList.forEach(function(video){
+					allPlays += video.stats_number_of_plays;
+					allLikes += video.stats_number_of_likes;
+				});
+				var allPlaysPerVideoAverage = allPlays/videosList.length;
+				var allLikesPerVideoAverage = allLikes/videosList.length;
+
+				console.log('all plays: ' + allPlays);
+				console.log('allPlaysPerVideoAverage: ' + allPlaysPerVideoAverage);
+				console.log('allLikesPerVideoAverage: ' + allLikesPerVideoAverage);
+
 				//save in the database
 				UserVideos.insert({
 					user_id: response.data[0].user_id,
 					user_name: response.data[0].user_name,
 					user_thumbnail_large: response.data[0].user_portrait_large,
-					video_list: response.data
+					user_total_videos: videosList.length, 
+					user_all_plays: allPlays,
+					user_all_likes: allLikes,
+					user_all_plays_average: allPlaysPerVideoAverage,
+					user_all_likes_average: allLikesPerVideoAverage,
+					video_list: videosList
 					}
 				);
 			}

@@ -4,7 +4,11 @@
 
 			<button class="delete">&times;</button>
 
-			<span class="text">User Name: {{user_name}}</span>
+			<span class="text">{{user_name}} {{user_total_videos}} Videos</span>
+			<br>
+			<span class="text">Total plays: {{user_all_plays}} - Average plays per video: {{user_all_plays_average}}</span>
+			<br>
+			<span class="text">Total likes: {{user_all_likes}} - Average likes per video: {{user_all_likes_average}}</span>
 		</li>
 		<div class="chartContainer" id="container{{user_id}}"></div>
 </template>
