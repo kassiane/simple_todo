@@ -3,20 +3,17 @@
     <header>
       <h1>Vimeo Videos</h1>
     
-    <form class="new-video">
-      <input type="text" name="text" placeholder="Type the id of the video to be tracked" />
+    <form class="new_user">
+      <input type="text" name="text" placeholder="Type the id of the user to be tracked" />
     </form>
     </header>
     
 
     <ul>
-      {{#each videos}}
+      {{#each userVideos}}
         {{> video}}
       {{/each}}
     </ul>
-
-    {{#with videoId}}
-      {{> acTemplate}}
-    {{/with}}
+    
   </div>
 </body>

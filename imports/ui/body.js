@@ -2,30 +2,43 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Mongo } from 'meteor/mongo';
 
- 
+
 import './video.js';
 import './body.html';
-import './chart_example.js';
 
-const Videos = new Mongo.Collection('videos');
-// const ChartData = new Mongo.Collection('chart');
+const UserVideos = new Mongo.Collection('userVideos');
 
 Template.body.onCreated(function bodyOnCreated() {
-	Meteor.subscribe('videos');
-	Meteor.subscribe('chart');
+	Meteor.subscribe('userVideos');
 });
 
 Template.body.helpers({
- videos() {
-  	return Videos.find();
-  },
-  videoId: function() {
-    return Session.get('videoId');
-  },
+	videos() {
+		return Videos.find();
+	},
+	userVideos() {
+		return UserVideos.find();
+	},
 });
 
 Template.body.events({
 	'submit .new-video'(event) {
+	// Prevent default browser form submit
+	event.preventDefault();
+	console.log(event);
+
+	// Get value from form element
+	const target = event.target;
+	const text = target.text.value;
+
+	// Insert a task into the collection
+	Meteor.call('vimeo.videos.insert', text);
+
+	// Clear form
+	target.text.value = '';
+	},
+
+	'submit .new_user'(event) {
 		// Prevent default browser form submit
 		event.preventDefault();
 		console.log(event);
@@ -35,44 +48,50 @@ Template.body.events({
 		const text = target.text.value;
 
 		// Insert a task into the collection
-		Meteor.call('vimeo.videos.insert', text);
+		Meteor.call('vimeo.user.videos.insert', text);
 
 		// Clear form
 		target.text.value = '';
 	},
 });
 
-var chart;
+Template.video.onRendered(function funcss() {
+	/*
+	Get container for chart.
+	It is not actually necessary here, `chart.container('container').draw();` can be used
+	for current scope, but container is found in template to avoid container ID duplication.
+	*/
+	// Turn Meteor Collection to simple array of objects.
+	var userVideos = UserVideos.find({}).fetch();
+	var self = this;
 
-Template.acTemplate.rendered = function() {
-  /*
-    Get container for chart.
-    It is not actually necessary here, `chart.container('container').draw();` can be used
-    for current scope, but container is found in template to avoid container ID duplication.
-   */
-  var container = this.find("#container");
+	userVideos.forEach(function(user) {
+		var chart;
+		var containerId = "#container" + user.user_id;
+		console.log('containerid: ' + containerId);
+		var container = self.find(containerId);
+		console.log('container');
+		console.log(container);
 
-  // Turn Meteor Collection to simple array of objects.
-  var videoData = Videos.find({}).fetch();
+		var videosList = user.video_list;
 
-  var data = [];
+		var data = [];
+		videosList.forEach(function(element) {
+			data.push({x: element.title, value: element.stats_number_of_plays});
+		});
 
-  videoData.forEach(function(element) {
-  	data.push({x: element.title, value: element.stats_number_of_plays});
-  });
-  
-  console.log('Aqui');
-  console.log(data);
-  //  ----- Standard Anychart API in use -----
-  chart = anychart.bar3d(data);
-  chart.title('Username - Videos');
+		//  ----- Standard Anychart API in use -----
+		chart = anychart.bar3d(data);
+		chart.title(user.user_name +' - Videos');
 
-  chart.legend()
-      .position('bottom')
-      .itemsLayout('horizontal')
-      .align('center')
-      .title('Retail channels');
+		chart.legend()
+		.position('bottom')
+		.itemsLayout('horizontal')
+		.align('center')
+		.title('Retail channels');
 
-  chart.animation(true);
-  chart.container(container).draw();
-};
+		chart.animation(true);
+		chart.container(container).draw();
+	});
+
+});
