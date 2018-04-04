@@ -88,7 +88,17 @@ Template.videoList.onRendered(function funcss() {
 			maxItens: userTags.length,
 			ignoreItems: []
 		});
+		// create and configure a color scale.
+		var customColorScale = anychart.scales.linearColor();
+		customColorScale.colors(["#ffcc00", "#00ccff"]);
 
+		// set the color scale as the color scale of the chart
+		tagsChart.colorScale(customColorScale);
+
+		// add a color range
+		tagsChart.colorRange().enabled(true);
+
+		tagsChart.angles([0, 90]);
 		tagsChart.title(user.user_name +' Tags');
 		tagsChart.container(tagsContainer).draw();
 	});
