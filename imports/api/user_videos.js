@@ -4,10 +4,14 @@ import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 
 export const UserVideos = new Mongo.Collection('userVideos');
+export const Users = new Mongo.Collection('vimeoUsers');
 
 if(Meteor.isServer) {
 	Meteor.publish('userVideos', function listUserVideos() {
 		return UserVideos.find({});
+	});
+	Meteor.publish('vimeoUsers', function listUsers() {
+		return Users.find({});
 	});
 }
 
@@ -42,6 +46,7 @@ Meteor.methods({
 				//save in the database
 				UserVideos.insert({
 					user_id: response.data[0].user_id,
+					date_inserted: Date.now(),
 					user_name: response.data[0].user_name,
 					user_thumbnail_large: response.data[0].user_portrait_large,
 					user_total_videos: videosList.length, 
@@ -52,6 +57,8 @@ Meteor.methods({
 					video_list: videosList
 					}
 				);
+
+				Users.insert({user_id: response.data[0].user_id});
 			}
 		});
 	},
@@ -61,5 +68,6 @@ Meteor.methods({
 
 		const video = UserVideos.findOne(id);
 		UserVideos.remove(id);
+		Users.remove(id);
 	},
 }); 
