@@ -27,10 +27,31 @@ Meteor.methods({
 				var allPlays = 0;
 				var allLikes = 0;
 
+				var tagsDict = {};
+
 				videosList.forEach(function(video){
 					allPlays += video.stats_number_of_plays;
 					allLikes += video.stats_number_of_likes;
+					
+					var tags = video.tags;
+					var array = tags.split(",").map(item => item.trim());
+					console.log('tags');
+					console.log(array.length);
+					
+					
+					array.forEach(function(tag){
+						var occurrences = tagsDict[tag];
+						if(occurrences) {
+							tagsDict[tag] = ++occurrences;
+						} else {
+							tagsDict[tag] = 1;
+						}
+					});
 				});
+
+				console.log('tagsDict');
+				console.log(tagsDict);
+
 				var allPlaysPerVideoAverage = allPlays/videosList.length;
 				var allLikesPerVideoAverage = allLikes/videosList.length;
 
@@ -48,6 +69,7 @@ Meteor.methods({
 					user_all_likes: allLikes,
 					user_all_plays_average: allPlaysPerVideoAverage,
 					user_all_likes_average: allLikesPerVideoAverage,
+					tags_dictionary: tagsDict,
 					video_list: videosList
 					}
 				);
