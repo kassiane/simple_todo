@@ -47,31 +47,50 @@ Template.videoList.onRendered(function funcss() {
 	var self = this;
 
 	userVideos.forEach(function(user) {
-		var chart;
-		var containerId = "#container" + user.user_id;
-		console.log('containerid: ' + containerId);
-		var container = self.find(containerId);
+		var videosChart;
+		var tagsChart;
+
+		console.log("#container" + user.user_id);
+		var container = self.find("#container" + user.user_id);
+		var tagsContainer = self.find("#tagsContainer" + user.user_id);
 		console.log('container');
 		console.log(container);
 
+
+		//  ----- Creating data for charts -----
 		var videosList = user.video_list;
 
+		var userTags = '';
 		var data = [];
 		videosList.forEach(function(element) {
 			data.push({x: element.title, value: element.stats_number_of_plays});
+			userTags = userTags + ' ' + element.tags;
 		});
 
-		//  ----- Standard Anychart API in use -----
-		chart = anychart.bar3d(data);
-		chart.title(user.user_name +' Videos');
+		//  ----- Creating the chart of videos -----
+		videosChart = anychart.bar3d(data);
+		
 
-		chart.legend()
+		videosChart.legend()
 		.position('bottom')
 		.itemsLayout('horizontal')
 		.align('center');
 
-		chart.animation(true);
-		chart.container(container).draw();
+		videosChart.title(user.user_name +' Videos');
+		videosChart.container(container).draw();
+
+
+		//  ----- Creating the chart of tags -----
+		tagsChart = anychart.tagCloud();
+
+		tagsChart.data(userTags, {
+			mode: 'by-word',
+			maxItens: userTags.length,
+			ignoreItems: []
+		});
+
+		tagsChart.title(user.user_name +' Tags');
+		tagsChart.container(tagsContainer).draw();
 	});
 
 });
