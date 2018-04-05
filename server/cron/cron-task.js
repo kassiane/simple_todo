@@ -7,7 +7,7 @@ if (Meteor.isServer) {
     name: 'Update historical videos data',
     schedule: function (parser) {
       // parser is a later.parse object
-      return parser.text('every 1 minute');
+      return parser.text('every 2 hours');
     },
     job: Meteor.bindEnvironment(function () {
       var usersList = Users.find({}).fetch();

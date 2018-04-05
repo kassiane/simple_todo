@@ -7,13 +7,18 @@ import './video_list.js';
 import './body.html';
 
 export const UserVideos = new Mongo.Collection('userVideos');
+export const Users = new Mongo.Collection('vimeoUsers');
 
 Template.body.onCreated(function bodyOnCreated() {
 	Meteor.subscribe('userVideos');
+	Meteor.subscribe('vimeoUsers');
 });
 
 Template.body.helpers({
-	userVideos() {
+	latestUserVideos() {
+
+
+
 		return UserVideos.find();
 	},
 });

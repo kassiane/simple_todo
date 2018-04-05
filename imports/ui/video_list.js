@@ -8,7 +8,7 @@ import './video_list.html';
  
 Template.videoList.events({
 	'click .delete'() {
-		Meteor.call('vimeo.user.videos.remove', this._id);
+		Meteor.call('vimeo.user.videos.remove', this.user_id);
 	},
 });
 

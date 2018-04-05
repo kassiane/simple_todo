@@ -63,11 +63,15 @@ Meteor.methods({
 		});
 	},
 
-	'vimeo.user.videos.remove'(id) {
-		check(id, String);
+	'vimeo.user.videos.remove'(userId) {
+		check(userId, Number);
 
-		const video = UserVideos.findOne(id);
-		UserVideos.remove(id);
-		Users.remove(id);
+		const videos = UserVideos.find({user_id: userId});
+		videos.forEach(function(video){
+			UserVideos.remove(video._id);
+		});		
+
+		const video = Users.findOne({user_id: userId});
+		Users.remove(video._id);
 	},
 }); 
