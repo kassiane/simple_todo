@@ -16,10 +16,15 @@ Template.body.onCreated(function bodyOnCreated() {
 
 Template.body.helpers({
 	latestUserVideos() {
+		var allUsers = Users.find({});
+		const allLatestUsersInfo = new Mongo.Collection(null);
 
+		allUsers.forEach(function(user){
+			var latestUserVideosInfo = UserVideos.findOne({user_id: user.user_id}, {sort: {date_inserted: -1}});
+			allLatestUsersInfo.insert(latestUserVideosInfo);
+		});
 
-
-		return UserVideos.find();
+		return allLatestUsersInfo.find({});
 	},
 });
 
