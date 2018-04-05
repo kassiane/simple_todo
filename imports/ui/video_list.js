@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { Mongo } from 'meteor/mongo'; 
 import { UserVideos } from './body.js';
+import { Users } from './body.js';
 
 import './video_list.html';
  
@@ -19,10 +20,10 @@ Template.videoList.onRendered(function funcss() {
 	for current scope, but container is found in template to avoid container ID duplication.
 	*/
 	// Turn Meteor Collection to simple array of objects.
-	var userVideos = UserVideos.find({}).fetch();
+	var users = Users.find({});
 	var self = this;
 
-	userVideos.forEach(function(user) {
+	users.forEach(function(user) {
 		var videosChart;
 		var tagsChart;
 
@@ -34,7 +35,7 @@ Template.videoList.onRendered(function funcss() {
 
 
 		//  ----- Creating data for charts -----
-		var videosList = user.video_list;
+		var videosList = UserVideos.findOne({user_id: user.user_id}, {sort: {date_inserted: -1}}).video_list;
 
 		var userTags = '';
 		var data = [];

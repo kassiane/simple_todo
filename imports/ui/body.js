@@ -21,7 +21,13 @@ Template.body.helpers({
 
 		allUsers.forEach(function(user){
 			var latestUserVideosInfo = UserVideos.findOne({user_id: user.user_id}, {sort: {date_inserted: -1}});
-			allLatestUsersInfo.insert(latestUserVideosInfo);
+			console.log('latestUserVideosInfo');
+			console.log(latestUserVideosInfo);
+			
+			if(latestUserVideosInfo != null) {
+				allLatestUsersInfo.insert(latestUserVideosInfo);	
+			}
+			
 		});
 
 		return allLatestUsersInfo.find({});
