@@ -26,3 +26,4 @@ insecure
 anychart:anychart
 session
 percolate:synced-cron
+momentjs:moment
